@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk, filedialog
 
+from Interfaz.gestion_incidencias import PantallaIncidencias
 # Importaciones de tu capa de Lógica (Servicios)
 from Logica.exportar_datos import exportar_activos_csv, exportar_incidencias_json
 from Logica.importar_datos import importar_activos_desde_csv

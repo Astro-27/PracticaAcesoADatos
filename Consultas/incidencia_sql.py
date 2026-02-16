@@ -18,13 +18,14 @@ def crear_incidencia(incidencia):
     finally:
         conn.close()
 
-def listar_incidencias_detalladas():
-    """Lista las incidencias mostrando el código del activo relacionado."""
+# ... (mantén tus otros imports y funciones)
+
+def listar_incidencias(): # Cambiado de listar_incidencias_detalladas a listar_incidencias
     conn = obtener_conexion()
     cursor = conn.cursor()
-    # Usamos INNER JOIN para juntar las dos tablas
     sql = '''
-        SELECT i.id, a.codigo, i.fecha_apertura, i.prioridad, i.estado, i.tecnico_asignado
+        SELECT i.id, i.activo_id, i.fecha_apertura, i.prioridad, i.categoria, 
+               i.descripcion, i.estado, i.tecnico_asignado, a.codigo
         FROM incidencias i
         INNER JOIN activos a ON i.activo_id = a.id
     '''
@@ -32,3 +33,16 @@ def listar_incidencias_detalladas():
     filas = cursor.fetchall()
     conn.close()
     return filas
+
+def cambiar_estado_incidencia(id_incidencia, nuevo_estado):
+    """Cambia el estado de una incidencia (Abierta/En Proceso/Resuelta).""" [cite: 44]
+    conn = obtener_conexion()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE incidencias SET estado = ? WHERE id = ?", (nuevo_estado, id_incidencia))
+        conn.commit()
+        registrar_info(f"UPDATE: Incidencia {id_incidencia} cambió a {nuevo_estado}.") [cite: 65]
+    except Exception as e:
+        registrar_error(f"ERROR al cambiar estado: {str(e)}") [cite: 65]
+    finally:
+        conn.close()
