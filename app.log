@@ -1,0 +1,8 @@
+2026-02-15 23:49:52 - INFO - INSERT: Incidencia creada para el activo ID 1.
+2026-02-15 23:49:52 - ERROR - ERROR al insertar activo ACT-0001: UNIQUE constraint failed: activos.codigo
+2026-02-15 23:54:55 - INFO - INSERT: Incidencia creada para el activo ID 1.
+2026-02-15 23:54:55 - ERROR - ERROR al insertar activo ACT-0001: UNIQUE constraint failed: activos.codigo
+2026-02-15 23:55:21 - INFO - INSERT: Incidencia creada para el activo ID 1.
+2026-02-15 23:55:21 - ERROR - ERROR al insertar activo ACT-0001: UNIQUE constraint failed: activos.codigo
+2026-02-15 23:55:36 - INFO - INSERT: Incidencia creada para el activo ID 1.
+2026-02-15 23:55:36 - ERROR - ERROR al insertar activo ACT-0001: UNIQUE constraint failed: activos.codigo
