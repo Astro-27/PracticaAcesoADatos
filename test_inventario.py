@@ -30,8 +30,9 @@ def probar_sistema():
     for item in inventario:
         print(item)
 
-from Objetos.incidencia import Incidencia
-from Consultas.incidencia_sql import crear_incidencia, listar_incidencias_detalladas
+from Consultas.incidencia_sql import crear_incidencia, listar_incidencias
+for inc in listar_incidencias():
+    print(inc)
 
 # ... después de insertar el activo de la prueba anterior ...
 
