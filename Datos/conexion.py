@@ -1,20 +1,16 @@
 import sqlite3
 import os
-
+from Herramientas.configuracion import cargar_config
 
 def obtener_conexion():
-    """Establece conexión con la base de datos y activa claves foráneas."""
-    # Creamos la carpeta si no existe para evitar errores
+    config = cargar_config()
     if not os.path.exists('Datos'):
         os.makedirs('Datos')
-
-    # Conexión al archivo SQLite
-    conn = sqlite3.connect('Datos/inventario.db')
-
-    # Requisito técnico: Activar claves foráneas
+    # Lee la ruta desde el JSON
+    conn = sqlite3.connect(config["base_datos"])
     conn.execute("PRAGMA foreign_keys = ON;")
-
     return conn
+# ... (mantén el resto igual)
 
 
 

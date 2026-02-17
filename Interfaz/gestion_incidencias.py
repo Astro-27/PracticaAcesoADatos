@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 # Importamos la consulta que ya creamos en Consultas
-from Consultas.incidencia_sql import listar_incidencias, cambiar_estado_incidencia
 from Datos.conexion import obtener_conexion
+from Consultas.incidencia_sql import listar_incidencias, cambiar_estado_incidencia
 
 
 class PantallaIncidencias(tk.Frame):
@@ -75,16 +75,3 @@ class PantallaIncidencias(tk.Frame):
         else:
             messagebox.showerror("Error", "No se pudo actualizar el estado.")
 
-def listar_incidencias():
-    conn = obtener_conexion()
-    cursor = conn.cursor()
-    sql = '''
-            SELECT i.id, i.activo_id, i.fecha_apertura, i.prioridad, i.categoria, 
-                   i.descripcion, i.estado, i.tecnico_asignado, a.codigo
-            FROM incidencias i
-            INNER JOIN activos a ON i.activo_id = a.id
-        '''
-    cursor.execute(sql)
-    filas = cursor.fetchall()
-    conn.close()
-    return filas
