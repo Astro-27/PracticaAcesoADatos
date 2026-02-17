@@ -19,10 +19,18 @@ def insertar_activo(activo):
     finally:
         conn.close()
 
-def listar_inventario():
+
+def listar_inventario(filtro="", limite=10, desplazamiento=0):
     conn = obtener_conexion()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM activos")
+
+    # Filtro combinado (Busca en código, marca, modelo o ubicación)
+    sql = """SELECT * FROM activos 
+             WHERE codigo LIKE ? OR marca LIKE ? OR modelo LIKE ? OR ubicacion LIKE ?
+             ORDER BY id DESC LIMIT ? OFFSET ?"""
+
+    termino = f"%{filtro}%"
+    cursor.execute(sql, (termino, termino, termino, termino, limite, desplazamiento))
     filas = cursor.fetchall()
     conn.close()
     return filas

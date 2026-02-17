@@ -1,4 +1,5 @@
 from Datos.conexion import inicializar_tablas
+from Interfaz.ventana_principal import AplicacionGestion
 from Objetos.activo import Activo
 from Objetos.incidencia import Incidencia  # Corregido: Importación faltante
 from Consultas.activo_sql import insertar_activo, listar_inventario
@@ -49,10 +50,10 @@ def probar_sistema():
     for inc in incidencias:
         print(inc)
 
-if __name__ == "__main__":
-    probar_sistema()
-
-
+# Al final de Interfaz/ventana_principal.py, asegúrate de importar e inicializar
+from Datos.conexion import inicializar_tablas
 
 if __name__ == "__main__":
-    probar_sistema()
+    inicializar_tablas() # Esto creará la tabla 'activos' que te falta
+    app = AplicacionGestion()
+    app.mainloop()

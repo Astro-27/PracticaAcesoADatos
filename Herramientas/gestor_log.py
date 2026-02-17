@@ -1,27 +1,29 @@
 import logging
-import os
-
-# Configuramos el log
-import logging
+from logging.handlers import RotatingFileHandler
 from Herramientas.configuracion import cargar_config
+
 
 def configurar_log():
     config = cargar_config()
-    # Mapeo simple para convertir texto a nivel de logging
-    niveles = {"INFO": logging.INFO, "DEBUG": logging.DEBUG, "ERROR": logging.ERROR}
-    nivel = niveles.get(config.get("nivel_log", "INFO"), logging.INFO)
+    nivel_str = config.get("nivel_log", "INFO").upper()
+    nivel = getattr(logging, nivel_str, logging.INFO)
 
-    logging.basicConfig(
-        filename='app.log',
-        level=nivel,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
+    logger = logging.getLogger("app")
+    logger.setLevel(nivel)
+
+    # Si ya tiene manejadores, no añadimos más (evita duplicados)
+    if not logger.handlers:
+        # Crea archivos de max 500KB y guarda 2 copias de seguridad
+        handler = RotatingFileHandler("app.log", maxBytes=500000, backupCount=2, encoding="utf-8")
+        fmt = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
+        handler.setFormatter(fmt)
+        logger.addHandler(handler)
+    return logger
+
 
 def registrar_info(mensaje):
-    configurar_log()
-    logging.info(mensaje)
+    configurar_log().info(mensaje)
+
 
 def registrar_error(mensaje):
-    configurar_log()
-    logging.error(mensaje)
+    configurar_log().error(mensaje)

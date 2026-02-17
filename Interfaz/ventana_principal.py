@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import messagebox, ttk, filedialog
 
@@ -13,20 +14,26 @@ from Interfaz.gestion_activos import PantallaActivos
 class AplicacionGestion(tk.Tk):
     def __init__(self):
         super().__init__()
-
-        # Configuración de la ventana principal
-        self.title("Sistema de Gestión de Activos e Incidencias - IES")
+        self.title("Gestión de Activos e Incidencias")
         self.geometry("1000x700")
 
-        # 1. Contenedor principal para cambiar entre pantallas (Activos/Incidencias)
+        # Barra de estado inferior
+        self.status_var = tk.StringVar(value="Listo.")
+        status_bar = ttk.Label(self, textvariable=self.status_var, relief="sunken", anchor="w")
+        status_bar.pack(side="bottom", fill="x")
+
+        # Atajos de teclado
+        self.bind_all("<Control-1>", lambda e: self.mostrar_pantalla_activos())
+        self.bind_all("<Control-2>", lambda e: self.mostrar_pantalla_incidencias())
+
         self.contenedor_vistas = tk.Frame(self)
         self.contenedor_vistas.pack(fill="both", expand=True)
-
-        # 2. Configurar el menú superior
         self.configurar_menu()
-
-        # 3. Pantalla de inicio por defecto (Listado de Activos)
         self.mostrar_pantalla_activos()
+
+    def set_status(self, mensaje):
+        """Método para actualizar la barra inferior desde cualquier pantalla."""
+        self.status_var.set(mensaje)
 
     def configurar_menu(self):
         """Crea la barra de navegación superior."""
@@ -72,11 +79,6 @@ class AplicacionGestion(tk.Tk):
         vista.pack(fill="both", expand=True)
     # --- Métodos de Acción (Llamadas a la Capa de Lógica) ---
 
-    def accion_exportar_csv(self):
-        if exportar_activos_csv():
-            messagebox.showinfo("Éxito", "CSV generado correctamente en la carpeta 'Exportaciones'.")
-        else:
-            messagebox.showerror("Error", "No se pudo exportar el CSV. Revisa app.log.")
 
     def accion_exportar_json(self):
         if exportar_incidencias_json():
